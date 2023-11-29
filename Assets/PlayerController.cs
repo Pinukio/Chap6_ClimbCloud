@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     float jumpForce = 680.0f;
     float walkForce = 30.0f;
     float maxWalkSpeed = 2.0f;
+    float threshold = 0.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -22,13 +23,15 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //점프
-        if(Input.GetKeyDown(KeyCode.Space))
+        //if(Input.GetKeyDown(KeyCode.Space)) 컴퓨터 버전
+        //모바일 버전
+        if (Input.GetMouseButtonDown(0) && rigid2D.velocity.y == 0) 
         {
             this.rigid2D.AddForce(transform.up * this.jumpForce);
         }
 
         int key = 0;
-
+        /* 컴퓨터 버전
         if(Input.GetKey(KeyCode.RightArrow))
         {
             key = 1;
@@ -37,6 +40,10 @@ public class PlayerController : MonoBehaviour
         {
             key = -1; 
         }
+        */
+        //모바일 버전
+        if (Input.acceleration.x > this.threshold) key = 1;
+        else if (Input.acceleration.x < -this.threshold) key = -1;
 
         float speedX = Mathf.Abs(this.rigid2D.velocity.x); //현재 플레이어의 속도
 
