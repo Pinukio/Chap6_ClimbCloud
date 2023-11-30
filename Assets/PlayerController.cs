@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
         //모바일 버전
         if (Input.GetMouseButtonDown(0) && rigid2D.velocity.y == 0)
         {
+            this.animator.SetTrigger("JumpTrigger");
             this.rigid2D.AddForce(transform.up * this.jumpForce);
         }
 
@@ -60,10 +61,17 @@ public class PlayerController : MonoBehaviour
             transform.localScale = new Vector3(key, 1, 1);
         }
         // 플레이어의 속도에 맞춰 애니메이션 속도를 바꾼다.
-        this.animator.speed = speedX / 2.0f;
+        if(this.rigid2D.velocity.y == 0)
+        {
+            this.animator.speed = speedX / 2.0f;
+        }
+        else
+        {
+            this.animator.speed = 1.0f;
+        }
 
         //플레이어가 화면 밖으로 떨어지면 처음부터 시작
-        if(transform.position.y < -10)
+        if (transform.position.y < -10)
         {
             SceneManager.LoadScene("GameScene");
         }
